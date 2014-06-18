@@ -8,12 +8,12 @@ import java.util.Date;
 import org.junit.Test;
 
 import com.theladders.employer.Employer;
+import com.theladders.job.application.NotYourResume;
 import com.theladders.job.application.display.StringWriterDisplay;
 import com.theladders.job.ats.AtsJob;
 import com.theladders.job.jreq.JReq;
 import com.theladders.jobseeker.Jobseeker;
 import com.theladders.jobseeker.Name;
-import com.theladders.jobseeker.resume.Resume;
 import com.theladders.jobseeker.resume.Resume.ValidResume;
 import com.theladders.jobseeker.resume.Title;
 
@@ -27,11 +27,11 @@ public class ApplicationTest
   @Test
   public void applyingToJReq()
   {
-    Resume resume = new ValidResume(new Title(JOHNNYS_RESUME));
     Jobseeker jobseeker = new Jobseeker(new Name(JOHNNYS_NAME));
     Employer employer = new Employer(new com.theladders.employer.Name("Employer 1"));
     JReq job = employer.createJreqWith(new com.theladders.job.Title("Sweet job"));
 
+    ValidResume resume = jobseeker.createResumeWith(new Title(JOHNNYS_RESUME));
     jobseeker.applyTo(job).with(resume);
 
     StringWriterDisplay display = new StringWriterDisplay();
@@ -77,7 +77,7 @@ public class ApplicationTest
     AtsJob atsJob = employer.createAtsJobWith(new com.theladders.job.Title("ATS job"));
     employer.post(atsJob);
 
-    Resume resume = new ValidResume(new Title(JOHNNYS_RESUME));
+    ValidResume resume = jobseeker.createResumeWith(new Title(JOHNNYS_RESUME));
 
     jobseeker.applyTo(jreq).with(resume);
     jobseeker.applyTo(atsJob);
@@ -102,6 +102,32 @@ public class ApplicationTest
     employer.displayJobsOn(display);
     assertEquals(jobsDisplayFor(jobDisplayFor("Employer 1", "JReq"), jobDisplayFor("Employer 1", "ATS job")),
                  display.result());
+  }
+
+  @Test(expected = NotYourResume.class)
+  public void cantApplyWithSomeoneElsesResume()
+  {
+    Jobseeker jobseeker = new Jobseeker(new Name(JOHNNYS_NAME));
+    Jobseeker anotherJobseeker = new Jobseeker(new Name("Bobby"));
+    Employer employer = new Employer(new com.theladders.employer.Name("Employer 1"));
+    JReq job = employer.createJreqWith(new com.theladders.job.Title("Sweet job"));
+
+    ValidResume anotherJobseekersResume = anotherJobseeker.createResumeWith(new Title("another jobseeker's resume"));
+    jobseeker.applyTo(job).with(anotherJobseekersResume);
+  }
+
+  @Test(expected = NotYourResume.class)
+  // this is verifying we can handle jobseekers with the same name by checking that it can
+  // distinguish between their resumes
+  public void canHandleJobseekersWithTheSameName()
+  {
+    Jobseeker johnny = new Jobseeker(new Name(JOHNNYS_NAME));
+    Jobseeker anotherJohnny = new Jobseeker(new Name(JOHNNYS_NAME));
+    Employer employer = new Employer(new com.theladders.employer.Name("Employer 1"));
+    JReq job = employer.createJreqWith(new com.theladders.job.Title("Sweet job"));
+
+    ValidResume anotherJohnnysResume = anotherJohnny.createResumeWith(new Title("another jobseeker's resume"));
+    johnny.applyTo(job).with(anotherJohnnysResume);
   }
 
   private static String applicationFor(Date date,

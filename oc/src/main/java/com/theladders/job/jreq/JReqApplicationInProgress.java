@@ -1,7 +1,7 @@
 package com.theladders.job.jreq;
 
 import com.theladders.jobseeker.Jobseeker;
-import com.theladders.jobseeker.resume.Resume;
+import com.theladders.jobseeker.resume.Resume.ValidResume;
 
 public class JReqApplicationInProgress
 {
@@ -15,10 +15,11 @@ public class JReqApplicationInProgress
     this.job = job;
   }
 
-  public void with(Resume resume)
+  public void with(ValidResume resume)
   {
+    resume.verifyOwnerIs(jobseeker);
     job.submitApplicationFor(jobseeker, resume);
-    // TODO (kw): is there a better way to do this while maintaing a fluent API?
+    // TODO (kw): is there a better way to do this while maintaining a fluent API?
     jobseeker.addToAppliedJobs(job);
   }
 

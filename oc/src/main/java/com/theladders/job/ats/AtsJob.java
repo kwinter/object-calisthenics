@@ -31,6 +31,8 @@ public class AtsJob implements Job
 
   public void submitApplicationBy(Jobseeker jobseeker)
   {
+    // TODO(kw): NoResume vs ValidResume should be a hidden detail from clients - they should just
+    // pass Resume
     applications.add(new Application(new Date(), new Applicant(jobseeker, new NoResume())));
   }
 

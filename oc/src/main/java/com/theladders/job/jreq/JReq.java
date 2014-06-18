@@ -11,7 +11,7 @@ import com.theladders.job.application.Application;
 import com.theladders.job.application.Applications;
 import com.theladders.job.application.display.Display;
 import com.theladders.jobseeker.Jobseeker;
-import com.theladders.jobseeker.resume.Resume;
+import com.theladders.jobseeker.resume.Resume.ValidResume;
 
 public class JReq implements Job
 {
@@ -35,7 +35,7 @@ public class JReq implements Job
   }
 
   public void submitApplicationFor(Jobseeker jobseeker,
-                                   Resume resume)
+                                   ValidResume resume)
   {
     applications.add(new Application(new Date(), new Applicant(jobseeker, resume)));
   }

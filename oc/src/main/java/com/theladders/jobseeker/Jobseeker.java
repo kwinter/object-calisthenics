@@ -6,6 +6,8 @@ import com.theladders.job.ats.AtsJob;
 import com.theladders.job.jreq.JReq;
 import com.theladders.job.jreq.JReqApplicationInProgress;
 import com.theladders.jobseeker.job.JobFolder;
+import com.theladders.jobseeker.resume.Resume.ValidResume;
+import com.theladders.jobseeker.resume.Title;
 
 public class Jobseeker
 {
@@ -50,6 +52,11 @@ public class Jobseeker
   public void displayAppliedJobsOn(Display display)
   {
     jobFolder.displayAppliedJobsOn(display);
+  }
+
+  public ValidResume createResumeWith(Title title)
+  {
+    return new ValidResume(this, title);
   }
 
 }
