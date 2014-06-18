@@ -9,9 +9,9 @@ import com.theladders.job.Title;
 import com.theladders.job.application.Applicant;
 import com.theladders.job.application.Application;
 import com.theladders.job.application.Applications;
-import com.theladders.job.application.display.Display;
 import com.theladders.jobseeker.Jobseeker;
 import com.theladders.jobseeker.resume.Resume.ValidResume;
+import com.theladders.reporting.Display;
 import com.theladders.reporting.Reporter;
 
 public class JReq implements Job

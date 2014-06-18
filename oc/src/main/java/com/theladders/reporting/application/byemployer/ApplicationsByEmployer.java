@@ -1,7 +1,7 @@
 package com.theladders.reporting.application.byemployer;
 
 import com.theladders.employer.Employer;
-import com.theladders.job.application.display.Display;
+import com.theladders.reporting.Display;
 import com.theladders.reporting.Reporter;
 
 public class ApplicationsByEmployer implements Reporter<Employer>

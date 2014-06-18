@@ -1,8 +1,8 @@
 package com.theladders.job.application;
 
-import com.theladders.job.application.display.Display;
 import com.theladders.jobseeker.Jobseeker;
 import com.theladders.jobseeker.resume.Resume;
+import com.theladders.reporting.Display;
 
 public class Applicant
 {

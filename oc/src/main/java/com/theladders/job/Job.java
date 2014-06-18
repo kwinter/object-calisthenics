@@ -1,7 +1,7 @@
 package com.theladders.job;
 
 import com.theladders.job.application.Application;
-import com.theladders.job.application.display.Display;
+import com.theladders.reporting.Display;
 import com.theladders.reporting.Reporter;
 
 public interface Job

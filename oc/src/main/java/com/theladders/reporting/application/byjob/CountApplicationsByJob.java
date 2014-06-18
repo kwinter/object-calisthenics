@@ -1,7 +1,7 @@
 package com.theladders.reporting.application.byjob;
 
 import com.theladders.job.Job;
-import com.theladders.job.application.display.Display;
+import com.theladders.reporting.Display;
 import com.theladders.reporting.Reporter;
 import com.theladders.reporting.application.ApplicationCounter;
 

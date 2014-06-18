@@ -2,7 +2,7 @@ package com.theladders.jobseeker.job;
 
 import com.theladders.job.Job;
 import com.theladders.job.Jobs;
-import com.theladders.job.application.display.Display;
+import com.theladders.reporting.Display;
 
 public class JobFolder
 {

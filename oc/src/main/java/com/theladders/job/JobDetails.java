@@ -1,7 +1,7 @@
 package com.theladders.job;
 
 import com.theladders.employer.Employer;
-import com.theladders.job.application.display.Display;
+import com.theladders.reporting.Display;
 
 public class JobDetails
 {

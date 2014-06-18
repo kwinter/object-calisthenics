@@ -1,67 +1,60 @@
-package com.theladders.job.application.display;
+package com.theladders.reporting.format;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class DelimitedDisplay implements Display
-{
-  public static final String  NEW_LINE = "\n";
-  private final String        delimiter;
-  private final StringBuilder builder  = new StringBuilder();
+import com.theladders.reporting.Display;
 
-  public DelimitedDisplay(String delimiter)
-  {
-    this.delimiter = delimiter;
-  }
+public class HtmlDisplay implements Display
+{
+  private final StringBuilder builder  = new StringBuilder();
 
   @Override
   public void writeEmployerName(String name)
   {
-    write(name);
+    writeColumn(name);
   }
 
   @Override
   public void writeJobTitle(String title)
   {
-    write(title);
+    writeColumn(title);
   }
 
   @Override
   public void writeJobseekerName(String name)
   {
-    write(name);
+    writeColumn(name);
   }
 
   @Override
   public void writeResumeTitle(String title)
   {
-    write(title);
+    writeColumn(title);
   }
 
-  private void write(String string)
+  private void writeColumn(String string)
   {
-    builder.append(string);
+    append("<td>" + string + "</td>");
   }
 
   @Override
   public void writeSeparator()
   {
-    builder.append(delimiter);
+    // do nothing
   }
-
-
 
   @Override
   public void writeApplicationDate(Date date)
   {
     String dateString = SimpleDateFormat.getDateInstance().format(date);
-    write(dateString);
+    writeColumn(dateString);
   }
 
   @Override
   public void writeNumberOfApplications(int number)
   {
-    builder.append(number);
+    writeColumn(String.valueOf(number));
   }
 
   public String result()
@@ -72,29 +65,29 @@ public class DelimitedDisplay implements Display
   @Override
   public void startSection()
   {
-    // do nothing
+    append("<table>");
   }
 
   @Override
   public void endSection()
   {
-    // do nothing
+    append("</table>");
   }
 
   @Override
   public void startRow()
   {
-    // do nothing
+    append("<tr>");
   }
 
   @Override
   public void endRow()
   {
-    newline();
+    append("</tr>");
   }
 
-  private void newline()
+  private void append(String string)
   {
-    builder.append(NEW_LINE);
+    builder.append(string);
   }
 }

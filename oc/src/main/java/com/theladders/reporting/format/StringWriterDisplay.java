@@ -1,4 +1,4 @@
-package com.theladders.job.application.display;
+package com.theladders.reporting.format;
 
 
 public class StringWriterDisplay extends DelimitedDisplay

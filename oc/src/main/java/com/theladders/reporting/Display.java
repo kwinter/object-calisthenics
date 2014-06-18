@@ -1,4 +1,4 @@
-package com.theladders.job.application.display;
+package com.theladders.reporting;
 
 import java.util.Date;
 
@@ -22,6 +22,5 @@ public interface Display
   void endSection();
 
   void startRow();
-
   void endRow();
 }

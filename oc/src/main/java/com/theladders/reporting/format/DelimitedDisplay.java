@@ -1,58 +1,67 @@
-package com.theladders.job.application.display;
+package com.theladders.reporting.format;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class HtmlDisplay implements Display
+import com.theladders.reporting.Display;
+
+public class DelimitedDisplay implements Display
 {
+  public static final String  NEW_LINE = "\n";
+  private final String        delimiter;
   private final StringBuilder builder  = new StringBuilder();
+
+  public DelimitedDisplay(String delimiter)
+  {
+    this.delimiter = delimiter;
+  }
 
   @Override
   public void writeEmployerName(String name)
   {
-    writeColumn(name);
+    write(name);
   }
 
   @Override
   public void writeJobTitle(String title)
   {
-    writeColumn(title);
+    write(title);
   }
 
   @Override
   public void writeJobseekerName(String name)
   {
-    writeColumn(name);
+    write(name);
   }
 
   @Override
   public void writeResumeTitle(String title)
   {
-    writeColumn(title);
+    write(title);
   }
 
-  private void writeColumn(String string)
+  private void write(String string)
   {
-    append("<td>" + string + "</td>");
+    builder.append(string);
   }
 
   @Override
   public void writeSeparator()
   {
-    // do nothing
+    builder.append(delimiter);
   }
 
   @Override
   public void writeApplicationDate(Date date)
   {
     String dateString = SimpleDateFormat.getDateInstance().format(date);
-    writeColumn(dateString);
+    write(dateString);
   }
 
   @Override
   public void writeNumberOfApplications(int number)
   {
-    writeColumn(String.valueOf(number));
+    builder.append(number);
   }
 
   public String result()
@@ -63,29 +72,29 @@ public class HtmlDisplay implements Display
   @Override
   public void startSection()
   {
-    append("<table>");
+    // do nothing
   }
 
   @Override
   public void endSection()
   {
-    append("</table>");
+    // do nothing
   }
 
   @Override
   public void startRow()
   {
-    append("<tr>");
+    // do nothing
   }
 
   @Override
   public void endRow()
   {
-    append("</tr>");
+    newline();
   }
 
-  private void append(String string)
+  private void newline()
   {
-    builder.append(string);
+    builder.append(NEW_LINE);
   }
 }

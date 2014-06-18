@@ -1,13 +1,13 @@
 package com.theladders.jobseeker;
 
 import com.theladders.job.Job;
-import com.theladders.job.application.display.Display;
 import com.theladders.job.ats.AtsJob;
 import com.theladders.job.jreq.JReq;
 import com.theladders.job.jreq.JReqApplicationInProgress;
 import com.theladders.jobseeker.job.JobFolder;
 import com.theladders.jobseeker.resume.Resume.ValidResume;
 import com.theladders.jobseeker.resume.Title;
+import com.theladders.reporting.Display;
 
 public class Jobseeker
 {

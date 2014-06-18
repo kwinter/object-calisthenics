@@ -1,8 +1,8 @@
 package com.theladders.jobseeker.resume;
 
 import com.theladders.job.application.NotYourResume;
-import com.theladders.job.application.display.Display;
 import com.theladders.jobseeker.Jobseeker;
+import com.theladders.reporting.Display;
 
 public interface Resume
 {

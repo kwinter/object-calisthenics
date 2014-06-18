@@ -10,15 +10,15 @@ import org.junit.Test;
 import com.theladders.TheLadders;
 import com.theladders.employer.Employer;
 import com.theladders.job.application.NotYourResume;
-import com.theladders.job.application.display.CsvDisplay;
-import com.theladders.job.application.display.HtmlDisplay;
-import com.theladders.job.application.display.StringWriterDisplay;
 import com.theladders.job.ats.AtsJob;
 import com.theladders.job.jreq.JReq;
 import com.theladders.jobseeker.Jobseeker;
 import com.theladders.jobseeker.Name;
 import com.theladders.jobseeker.resume.Resume.ValidResume;
 import com.theladders.jobseeker.resume.Title;
+import com.theladders.reporting.format.CsvDisplay;
+import com.theladders.reporting.format.HtmlDisplay;
+import com.theladders.reporting.format.StringWriterDisplay;
 
 public class ApplicationTest
 {

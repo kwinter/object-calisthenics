@@ -1,6 +1,6 @@
 package com.theladders.jobseeker;
 
-import com.theladders.job.application.display.Display;
+import com.theladders.reporting.Display;
 
 public class Name
 {

@@ -3,11 +3,11 @@ package com.theladders.employer;
 import com.theladders.job.Job;
 import com.theladders.job.Jobs;
 import com.theladders.job.Title;
-import com.theladders.job.application.display.Display;
-import com.theladders.job.application.display.StringWriterDisplay;
 import com.theladders.job.ats.AtsJob;
 import com.theladders.job.jreq.JReq;
+import com.theladders.reporting.Display;
 import com.theladders.reporting.Reporter;
+import com.theladders.reporting.format.StringWriterDisplay;
 
 public class Employer
 {

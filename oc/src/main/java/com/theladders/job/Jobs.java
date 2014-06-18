@@ -3,7 +3,7 @@ package com.theladders.job;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import com.theladders.job.application.display.Display;
+import com.theladders.reporting.Display;
 import com.theladders.reporting.Reporter;
 
 public class Jobs

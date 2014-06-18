@@ -2,7 +2,7 @@ package com.theladders.job.application;
 
 import java.util.Date;
 
-import com.theladders.job.application.display.Display;
+import com.theladders.reporting.Display;
 
 public class Application
 {
