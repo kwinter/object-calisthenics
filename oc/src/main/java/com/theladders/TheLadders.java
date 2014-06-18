@@ -21,12 +21,16 @@ public class TheLadders
 
   public void reportApplicationsByJobOn(Display display)
   {
+    display.startSection();
     reportWith(new ApplicationsByJob(display));
+    display.endSection();
   }
 
   public void reportApplicationsByEmployerOn(Display display)
   {
+    display.startSection();
     reportWith(new ApplicationsByEmployer(display));
+    display.endSection();
   }
 
   private void reportWith(Reporter<Employer> reporter)

@@ -13,6 +13,6 @@ public class Title
 
   public void displayOn(Display display)
   {
-    display.write(title);
+    display.writeResumeTitle(title);
   }
 }

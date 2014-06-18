@@ -13,6 +13,6 @@ public class Name
 
   public void displayOn(Display display)
   {
-    display.write(name);
+    display.writeJobseekerName(name);
   }
 }

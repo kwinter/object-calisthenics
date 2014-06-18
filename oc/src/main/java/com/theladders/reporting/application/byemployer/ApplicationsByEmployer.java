@@ -16,11 +16,13 @@ public class ApplicationsByEmployer implements Reporter<Employer>
   @Override
   public void report(Employer employer)
   {
+    display.startRow();
     employer.displayNameOn(display);
     display.writeSeparator();
     displayApplicationCountFor(employer);
 
     display.newline();
+    display.endRow();
   }
 
   private void displayApplicationCountFor(Employer employer)

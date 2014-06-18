@@ -18,7 +18,7 @@ public class Application
 
   public void displayOn(Display display)
   {
-    display.write(date);
+    display.writeApplicationDate(date);
     display.writeSeparator();
     applicant.displayOn(display);
   }

@@ -16,6 +16,6 @@ public class ApplicationCounter implements Reporter<Application>
 
   public void displayOn(Display display)
   {
-    display.write(numberOfApplications);
+    display.writeNumberOfApplications(numberOfApplications);
   }
 }

@@ -18,11 +18,13 @@ public class CountApplicationsByJob implements Reporter<Job>
   @Override
   public void report(Job job)
   {
+    display.startRow();
     job.displayOn(display);
     display.writeSeparator();
     displayApplicationCountFor(job);
 
     display.newline();
+    display.endRow();
   }
 
   private void displayApplicationCountFor(Job job)

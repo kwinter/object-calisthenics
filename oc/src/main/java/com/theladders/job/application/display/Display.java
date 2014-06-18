@@ -4,13 +4,26 @@ import java.util.Date;
 
 public interface Display
 {
-  void write(String string);
+  void writeEmployerName(String name);
+
+  void writeJobTitle(String title);
+
+  void writeJobseekerName(String name);
+
+  void writeResumeTitle(String title);
+
+  void writeApplicationDate(Date date);
 
   void writeSeparator();
 
   void newline();
 
-  void write(Date date);
+  void writeNumberOfApplications(int numberOfApplications);
 
-  void write(int numberOfApplications);
+  void startSection();
+  void endSection();
+
+  void startRow();
+
+  void endRow();
 }

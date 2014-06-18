@@ -11,6 +11,7 @@ import com.theladders.TheLadders;
 import com.theladders.employer.Employer;
 import com.theladders.job.application.NotYourResume;
 import com.theladders.job.application.display.CsvDisplay;
+import com.theladders.job.application.display.HtmlDisplay;
 import com.theladders.job.application.display.StringWriterDisplay;
 import com.theladders.job.ats.AtsJob;
 import com.theladders.job.jreq.JReq;
@@ -227,6 +228,36 @@ public class ApplicationTest
     assertEquals(splitByNewlines(csvApplicationCountDisplayFor("Employer 1", 3),
                                  csvApplicationCountDisplayFor("Employer 2", 1)),
                  display.result());
+  }
+
+  @Test
+  public void canSeeApplicationReportInHtml()
+  {
+    Jobseeker jobseeker = new Jobseeker(new Name(JOHNNYS_NAME));
+    Employer employer = createEmployerWith("Employer 1");
+    JReq jreq = employer.createJreqWith(new com.theladders.job.Title("JReq"));
+    employer.post(jreq);
+    AtsJob atsJob = employer.createAtsJobWith(new com.theladders.job.Title("ATS job"));
+    employer.post(atsJob);
+
+    ValidResume resume = jobseeker.createResumeWith(new Title(JOHNNYS_RESUME));
+
+    jobseeker.applyTo(jreq).with(resume);
+    jobseeker.applyTo(atsJob);
+
+    Employer anotherEmployer = createEmployerWith("Employer 2");
+    AtsJob anotherEmployersAtsJob = anotherEmployer.createAtsJobWith(new com.theladders.job.Title("ATS job"));
+    anotherEmployer.post(anotherEmployersAtsJob);
+
+    Jobseeker anotherJobseeker = new Jobseeker(new Name("Bobby"));
+    anotherJobseeker.applyTo(anotherEmployersAtsJob);
+    anotherJobseeker.applyTo(atsJob);
+
+    HtmlDisplay display = new HtmlDisplay();
+    theLadders.reportApplicationsByEmployerOn(display);
+
+    String expected = "<table><tr><td>Employer 1</td><td>3</td></tr><tr><td>Employer 2</td><td>1</td></tr></table>";
+    assertEquals(expected, display.result());
   }
 
   private Employer createEmployerWith(String name)
