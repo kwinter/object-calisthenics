@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import com.theladders.job.application.display.Display;
+import com.theladders.reporting.JobReporter;
 
 public class Jobs
 {
@@ -30,6 +31,14 @@ public class Jobs
     {
       job.displayOn(display);
       display.newline();
+    }
+  }
+
+  public void reportOn(JobReporter reporter)
+  {
+    for (Job job : jobs)
+    {
+      reporter.report(job);
     }
   }
 }

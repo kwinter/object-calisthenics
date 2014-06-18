@@ -34,6 +34,11 @@ public class StringWriterDisplay implements Display
     write(dateString);
   }
 
+  @Override
+  public void write(int number)
+  {
+    builder.append(number);
+  }
   public String result()
   {
     return builder.toString();

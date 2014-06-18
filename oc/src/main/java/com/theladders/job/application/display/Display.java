@@ -11,4 +11,6 @@ public interface Display
   void newline();
 
   void write(Date date);
+
+  void write(int numberOfApplications);
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import com.theladders.job.application.display.Display;
+import com.theladders.reporting.Reporter;
 
 public class Applications
 {
@@ -30,6 +31,14 @@ public class Applications
     {
       application.displayOn(display);
     }
-    display.newline();
+    display.newline(); // TOOD(kw): move to a reporter
+  }
+
+  public void reportOn(Reporter<Application> reporter)
+  {
+    for (Application application : applications)
+    {
+      reporter.report(application);
+    }
   }
 }

@@ -12,6 +12,7 @@ import com.theladders.job.application.Applications;
 import com.theladders.job.application.display.Display;
 import com.theladders.jobseeker.Jobseeker;
 import com.theladders.jobseeker.resume.Resume.NoResume;
+import com.theladders.reporting.Reporter;
 
 public class AtsJob implements Job
 {
@@ -46,5 +47,11 @@ public class AtsJob implements Job
   public void displayOn(Display display)
   {
     jobDetails.displayOn(display);
+  }
+
+  @Override
+  public void reportApplicationsOn(Reporter<Application> reporter)
+  {
+    applications.reportOn(reporter);
   }
 }

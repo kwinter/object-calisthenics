@@ -12,6 +12,7 @@ import com.theladders.job.application.Applications;
 import com.theladders.job.application.display.Display;
 import com.theladders.jobseeker.Jobseeker;
 import com.theladders.jobseeker.resume.Resume.ValidResume;
+import com.theladders.reporting.Reporter;
 
 public class JReq implements Job
 {
@@ -50,6 +51,12 @@ public class JReq implements Job
   public void displayOn(Display display)
   {
     jobDetails.displayOn(display);
+  }
+
+  @Override
+  public void reportApplicationsOn(Reporter<Application> reporter)
+  {
+    applications.reportOn(reporter);
   }
 
 }
