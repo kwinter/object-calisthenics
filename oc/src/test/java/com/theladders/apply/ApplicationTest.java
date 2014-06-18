@@ -157,11 +157,42 @@ public class ApplicationTest
     anotherJobseeker.applyTo(atsJob);
 
     StringWriterDisplay display = new StringWriterDisplay();
-    theLadders.reportApplicationsByEmployerAndJobOn(display);
+    theLadders.reportApplicationsByJobOn(display);
 
     assertEquals(splitByNewlines(applicationCountDisplayFor("Employer 1", "JReq", 1),
                                  applicationCountDisplayFor("Employer 1", "ATS job", 2),
                                  applicationCountDisplayFor("Employer 2", "ATS job", 1)),
+                 display.result());
+  }
+
+  @Test
+  public void canSeeApplicationNumbersByEmployer()
+  {
+    Jobseeker jobseeker = new Jobseeker(new Name(JOHNNYS_NAME));
+    Employer employer = createEmployerWith("Employer 1");
+    JReq jreq = employer.createJreqWith(new com.theladders.job.Title("JReq"));
+    employer.post(jreq);
+    AtsJob atsJob = employer.createAtsJobWith(new com.theladders.job.Title("ATS job"));
+    employer.post(atsJob);
+
+    ValidResume resume = jobseeker.createResumeWith(new Title(JOHNNYS_RESUME));
+
+    jobseeker.applyTo(jreq).with(resume);
+    jobseeker.applyTo(atsJob);
+
+    Employer anotherEmployer = createEmployerWith("Employer 2");
+    AtsJob anotherEmployersAtsJob = anotherEmployer.createAtsJobWith(new com.theladders.job.Title("ATS job"));
+    anotherEmployer.post(anotherEmployersAtsJob);
+
+    Jobseeker anotherJobseeker = new Jobseeker(new Name("Bobby"));
+    anotherJobseeker.applyTo(anotherEmployersAtsJob);
+    anotherJobseeker.applyTo(atsJob);
+
+    StringWriterDisplay display = new StringWriterDisplay();
+    theLadders.reportApplicationsByEmployerOn(display);
+
+    assertEquals(splitByNewlines(applicationCountDisplayFor("Employer 1", 3),
+                                 applicationCountDisplayFor("Employer 2", 1)),
                  display.result());
   }
 
@@ -202,6 +233,12 @@ public class ApplicationTest
                                       String title)
   {
     return employer + StringWriterDisplay.DELIMITER + title;
+  }
+
+  private static String applicationCountDisplayFor(String employer,
+                                                   int count)
+  {
+    return employer + StringWriterDisplay.DELIMITER + count;
   }
 
   private static Date today()

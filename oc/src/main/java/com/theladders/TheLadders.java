@@ -4,7 +4,9 @@ import com.theladders.employer.Employer;
 import com.theladders.employer.Employers;
 import com.theladders.employer.Name;
 import com.theladders.job.application.display.Display;
-import com.theladders.reporting.ApplicationsByEmployerAndJob;
+import com.theladders.reporting.ApplicationsByEmployer;
+import com.theladders.reporting.ApplicationsByJob;
+import com.theladders.reporting.Reporter;
 
 public class TheLadders
 {
@@ -17,9 +19,18 @@ public class TheLadders
     return employer;
   }
 
-  public void reportApplicationsByEmployerAndJobOn(Display display)
+  public void reportApplicationsByJobOn(Display display)
   {
-    ApplicationsByEmployerAndJob applicationsByEmployerAndJob = new ApplicationsByEmployerAndJob(display);
-    employers.reportWith(applicationsByEmployerAndJob);
+    reportWith(new ApplicationsByJob(display));
+  }
+
+  public void reportApplicationsByEmployerOn(Display display)
+  {
+    reportWith(new ApplicationsByEmployer(display));
+  }
+
+  private void reportWith(Reporter<Employer> reporter)
+  {
+    employers.reportWith(reporter);
   }
 }

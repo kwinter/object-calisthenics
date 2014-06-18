@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class StringWriterDisplay implements Display
 {
-  public static final String  DELIMITER = "\t";
+  public static final String  DELIMITER = "\t|\t";
   public static final Object  NEW_LINE  = "\n";
   private final StringBuilder builder   = new StringBuilder();
 
