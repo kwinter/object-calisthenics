@@ -1,9 +1,11 @@
-package com.theladders.reporting;
+package com.theladders.reporting.application.byemployer;
 
 import com.theladders.job.Job;
 import com.theladders.job.application.display.Display;
+import com.theladders.reporting.Reporter;
+import com.theladders.reporting.application.ApplicationCounter;
 
-public class CountApplicationsForEmployer implements JobReporter
+public class CountApplicationsForEmployer implements Reporter<Job>
 {
   ApplicationCounter    applicationCounter = new ApplicationCounter();
 

@@ -7,7 +7,7 @@ import com.theladders.job.application.display.Display;
 import com.theladders.job.application.display.StringWriterDisplay;
 import com.theladders.job.ats.AtsJob;
 import com.theladders.job.jreq.JReq;
-import com.theladders.reporting.JobReporter;
+import com.theladders.reporting.Reporter;
 
 public class Employer
 {
@@ -44,7 +44,7 @@ public class Employer
     jobs.displayOn(display);
   }
 
-  public void reportJobsOn(JobReporter reporter)
+  public void reportJobsOn(Reporter<Job> reporter)
   {
     jobs.reportOn(reporter);
   }

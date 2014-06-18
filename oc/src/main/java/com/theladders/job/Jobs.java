@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import com.theladders.job.application.display.Display;
-import com.theladders.reporting.JobReporter;
+import com.theladders.reporting.Reporter;
 
 public class Jobs
 {
@@ -34,7 +34,7 @@ public class Jobs
     }
   }
 
-  public void reportOn(JobReporter reporter)
+  public void reportOn(Reporter<Job> reporter)
   {
     for (Job job : jobs)
     {
