@@ -31,7 +31,6 @@ public class Applications
     {
       application.displayOn(display);
     }
-    display.newline(); // TOOD(kw): move to a reporter
   }
 
   public void reportOn(Reporter<Application> reporter)

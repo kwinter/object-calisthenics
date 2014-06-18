@@ -16,8 +16,6 @@ public interface Display
 
   void writeSeparator();
 
-  void newline();
-
   void writeNumberOfApplications(int numberOfApplications);
 
   void startSection();

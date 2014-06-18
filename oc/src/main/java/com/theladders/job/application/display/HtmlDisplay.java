@@ -43,12 +43,6 @@ public class HtmlDisplay implements Display
   }
 
   @Override
-  public void newline()
-  {
-    // do nothing
-  }
-
-  @Override
   public void writeApplicationDate(Date date)
   {
     String dateString = SimpleDateFormat.getDateInstance().format(date);

@@ -21,7 +21,6 @@ public class ApplicationsByEmployer implements Reporter<Employer>
     display.writeSeparator();
     displayApplicationCountFor(employer);
 
-    display.newline();
     display.endRow();
   }
 

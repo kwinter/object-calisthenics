@@ -29,8 +29,9 @@ public class Jobs
   {
     for (Job job : jobs)
     {
+      display.startRow();
       job.displayOn(display);
-      display.newline();
+      display.endRow();
     }
   }
 

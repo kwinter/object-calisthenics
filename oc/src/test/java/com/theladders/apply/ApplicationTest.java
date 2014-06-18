@@ -272,8 +272,7 @@ public class ApplicationTest
     return SimpleDateFormat.getDateInstance().format(date) + StringWriterDisplay.DELIMITER
            + name
            + StringWriterDisplay.DELIMITER
-           + resumeTitle
-           + StringWriterDisplay.NEW_LINE;
+           + resumeTitle;
   }
 
   private static String splitByNewlines(String... lines)

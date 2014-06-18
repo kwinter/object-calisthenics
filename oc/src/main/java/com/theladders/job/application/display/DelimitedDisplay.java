@@ -49,11 +49,7 @@ public class DelimitedDisplay implements Display
     builder.append(delimiter);
   }
 
-  @Override
-  public void newline()
-  {
-    builder.append(NEW_LINE);
-  }
+
 
   @Override
   public void writeApplicationDate(Date date)
@@ -94,7 +90,11 @@ public class DelimitedDisplay implements Display
   @Override
   public void endRow()
   {
-    // do nothing
-    // TODO(kw): put newline here?
+    newline();
+  }
+
+  private void newline()
+  {
+    builder.append(NEW_LINE);
   }
 }

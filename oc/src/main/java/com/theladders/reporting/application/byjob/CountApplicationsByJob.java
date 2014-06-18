@@ -23,7 +23,6 @@ public class CountApplicationsByJob implements Reporter<Job>
     display.writeSeparator();
     displayApplicationCountFor(job);
 
-    display.newline();
     display.endRow();
   }
 
