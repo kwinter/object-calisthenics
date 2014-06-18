@@ -20,9 +20,15 @@ public class CountApplicationsByJob implements Reporter<Job>
   {
     job.displayOn(display);
     display.writeSeparator();
+    displayApplicationCountFor(job);
+
+    display.newline();
+  }
+
+  private void displayApplicationCountFor(Job job)
+  {
     ApplicationCounter applicationCounter = new ApplicationCounter();
     job.reportApplicationsOn(applicationCounter);
     applicationCounter.displayOn(display);
-    display.newline();
   }
 }

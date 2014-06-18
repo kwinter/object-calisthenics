@@ -12,16 +12,21 @@ public class ApplicationsByEmployer implements Reporter<Employer>
   {
     this.display = display;
   }
+
   @Override
   public void report(Employer employer)
   {
     employer.displayNameOn(display);
     display.writeSeparator();
+    displayApplicationCountFor(employer);
 
+    display.newline();
+  }
+
+  private void displayApplicationCountFor(Employer employer)
+  {
     CountApplicationsForEmployer applicationCounts = new CountApplicationsForEmployer();
     employer.reportJobsOn(applicationCounts);
     applicationCounts.displayOn(display);
-
-    display.newline();
   }
 }
