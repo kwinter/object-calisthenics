@@ -2,6 +2,7 @@ package com.theladders.job.application;
 
 import java.util.Date;
 
+import com.theladders.job.application.reporting.ApplicationReporter;
 import com.theladders.reporting.Display;
 
 public class Application
@@ -21,6 +22,11 @@ public class Application
     display.writeApplicationDate(date);
     display.writeSeparator();
     applicant.displayOn(display);
+  }
+
+  public void reportOn(ApplicationReporter reporter)
+  {
+    reporter.report(applicant, date);
   }
 
 }

@@ -22,4 +22,9 @@ public class Applicant
     display.writeSeparator();
     resume.displayOn(display);
   }
+
+  public void displayJobseekerOn(Display display)
+  {
+    jobseeker.displayNameOn(display);
+  }
 }

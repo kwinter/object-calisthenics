@@ -3,8 +3,8 @@ package com.theladders.job.application;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import com.theladders.job.application.reporting.ApplicationReporter;
 import com.theladders.reporting.Display;
-import com.theladders.reporting.Reporter;
 
 public class Applications
 {
@@ -33,11 +33,12 @@ public class Applications
     }
   }
 
-  public void reportOn(Reporter<Application> reporter)
+
+  public void reportOn(ApplicationReporter reporter)
   {
     for (Application application : applications)
     {
-      reporter.report(application);
+      application.reportOn(reporter);
     }
   }
 }

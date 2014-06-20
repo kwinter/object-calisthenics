@@ -3,8 +3,10 @@ package com.theladders.apply;
 import static org.junit.Assert.assertEquals;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import com.theladders.TheLadders;
@@ -19,15 +21,28 @@ import com.theladders.jobseeker.resume.Title;
 import com.theladders.reporting.format.CsvDisplay;
 import com.theladders.reporting.format.HtmlDisplay;
 import com.theladders.reporting.format.StringWriterDisplay;
+import com.theladders.time.Clock;
+import com.theladders.time.Clock.MockClock;
 
 public class ApplicationTest
 {
   private static final String JOHNNYS_RESUME                     = "Johnny's resume";
   private static final String JOHNNYS_NAME                       = "Johnny";
-  private static final String JOHNNYS_APPLICATION_WITH_RESUME    = applicationFor(today(), JOHNNYS_NAME, JOHNNYS_RESUME);
-  private static final String JOHNNYS_APPLICATION_WITHOUT_RESUME = applicationFor(today(), JOHNNYS_NAME, "");
+  private static final String JOHNNYS_APPLICATION_WITH_RESUME    = applicationFor(yesterday(),
+                                                                                  JOHNNYS_NAME,
+                                                                                  JOHNNYS_RESUME);
+  private static final String JOHNNYS_APPLICATION_WITHOUT_RESUME = applicationFor(yesterday(), JOHNNYS_NAME, "");
 
   private final TheLadders    theLadders                         = new TheLadders();
+
+  private MockClock           mockClock;
+
+  @Before
+  public void setup()
+  {
+    mockClock = new MockClock(yesterday());
+    Clock.setDefaultTo(mockClock);
+  }
 
   @Test
   public void applyingToJReq()
@@ -41,7 +56,9 @@ public class ApplicationTest
 
     StringWriterDisplay display = new StringWriterDisplay();
     job.displayApplicationsOn(display);
-    assertEquals(JOHNNYS_APPLICATION_WITH_RESUME, display.result());
+    String result = display.result();
+    System.out.println(result);
+    assertEquals(JOHNNYS_APPLICATION_WITH_RESUME, result);
   }
 
   @Test
@@ -55,7 +72,9 @@ public class ApplicationTest
 
     StringWriterDisplay display = new StringWriterDisplay();
     job.displayApplicationsOn(display);
-    assertEquals(JOHNNYS_APPLICATION_WITHOUT_RESUME, display.result());
+    String result = display.result();
+    System.out.println(result);
+    assertEquals(JOHNNYS_APPLICATION_WITHOUT_RESUME, result);
   }
 
   @Test
@@ -260,6 +279,33 @@ public class ApplicationTest
     assertEquals(expected, display.result());
   }
 
+  @Test
+  public void canSeeWhichJobseekersAppliedByDay()
+  {
+    Jobseeker jobseeker = new Jobseeker(new Name(JOHNNYS_NAME));
+    Employer employer = createEmployerWith("Employer 1");
+    AtsJob atsJob = employer.createAtsJobWith(new com.theladders.job.Title("ATS job"));
+    employer.post(atsJob);
+
+    jobseeker.applyTo(atsJob);
+
+    mockClock.setTimeTo(twoDaysAgo());
+    Jobseeker bobby = new Jobseeker(new Name("Bobby"));
+    bobby.applyTo(atsJob);
+    Jobseeker billy = new Jobseeker(new Name("Billy"));
+    billy.applyTo(atsJob);
+
+    StringWriterDisplay display = new StringWriterDisplay();
+    theLadders.reportJobseekersThatAppliedOn(yesterday(), display);
+
+    assertEquals(splitByNewlines(JOHNNYS_NAME), display.result());
+
+    display = new StringWriterDisplay();
+    theLadders.reportJobseekersThatAppliedOn(twoDaysAgo(), display);
+
+    assertEquals(splitByNewlines("Bobby", "Billy"), display.result());
+  }
+
   private Employer createEmployerWith(String name)
   {
     return theLadders.createEmployerWith(new com.theladders.employer.Name(name));
@@ -310,8 +356,20 @@ public class ApplicationTest
     return employer + CsvDisplay.DELIMITER + count;
   }
 
-  private static Date today()
+  private static Date yesterday()
   {
-    return new Date();
+    return daysAgo(1);
+  }
+
+  private static Date twoDaysAgo()
+  {
+    return daysAgo(2);
+  }
+
+  private static Date daysAgo(int numberOfDaysAgo)
+  {
+    Calendar calendar = Calendar.getInstance();
+    calendar.add(Calendar.DATE, -numberOfDaysAgo);
+    return calendar.getTime();
   }
 }

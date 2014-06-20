@@ -1,15 +1,18 @@
 package com.theladders.reporting.application;
 
-import com.theladders.job.application.Application;
-import com.theladders.reporting.Display;
-import com.theladders.reporting.Reporter;
+import java.util.Date;
 
-public class ApplicationCounter implements Reporter<Application>
+import com.theladders.job.application.Applicant;
+import com.theladders.job.application.reporting.ApplicationReporter;
+import com.theladders.reporting.Display;
+
+public class ApplicationCounter implements ApplicationReporter
 {
   private int numberOfApplications = 0;
 
   @Override
-  public void report(Application application)
+  public void report(Applicant applicant,
+                     Date date)
 {
     numberOfApplications++;
   }

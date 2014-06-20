@@ -1,7 +1,5 @@
 package com.theladders.job.jreq;
 
-import java.util.Date;
-
 import com.theladders.employer.Employer;
 import com.theladders.job.Job;
 import com.theladders.job.JobDetails;
@@ -9,10 +7,11 @@ import com.theladders.job.Title;
 import com.theladders.job.application.Applicant;
 import com.theladders.job.application.Application;
 import com.theladders.job.application.Applications;
+import com.theladders.job.application.reporting.ApplicationReporter;
 import com.theladders.jobseeker.Jobseeker;
 import com.theladders.jobseeker.resume.Resume.ValidResume;
 import com.theladders.reporting.Display;
-import com.theladders.reporting.Reporter;
+import com.theladders.time.Clock;
 
 public class JReq implements Job
 {
@@ -38,7 +37,7 @@ public class JReq implements Job
   public void submitApplicationFor(Jobseeker jobseeker,
                                    ValidResume resume)
   {
-    applications.add(new Application(new Date(), new Applicant(jobseeker, resume)));
+    applications.add(new Application(Clock.now(), new Applicant(jobseeker, resume)));
   }
 
   @Override
@@ -54,7 +53,7 @@ public class JReq implements Job
   }
 
   @Override
-  public void reportApplicationsOn(Reporter<Application> reporter)
+  public void reportApplicationsOn(ApplicationReporter reporter)
   {
     applications.reportOn(reporter);
   }
