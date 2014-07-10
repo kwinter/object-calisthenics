@@ -29,13 +29,15 @@ public class JReq implements Job
     this.jobDetails = jobDetails;
   }
 
-  public JReqApplicationInProgress applicationFor(Jobseeker jobseeker)
+  @Override
+  public void acceptApplicationFor(Jobseeker jobseeker)
   {
-    return new JReqApplicationInProgress(jobseeker, this);
+    throw new ResumeRequired();
   }
 
-  void acceptApplicationFor(Jobseeker jobseeker,
-                            ValidResume resume)
+  @Override
+  public void acceptApplicationFor(Jobseeker jobseeker,
+                                   ValidResume resume)
   {
     applications.add(new Application(Clock.now(), new Applicant(jobseeker, resume)));
   }

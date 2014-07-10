@@ -10,6 +10,7 @@ import com.theladders.job.application.Applications;
 import com.theladders.job.application.reporting.ApplicationReporter;
 import com.theladders.jobseeker.Jobseeker;
 import com.theladders.jobseeker.resume.Resume.NoResume;
+import com.theladders.jobseeker.resume.Resume.ValidResume;
 import com.theladders.reporting.Display;
 import com.theladders.time.Clock;
 
@@ -29,11 +30,19 @@ public class AtsJob implements Job
     this.jobDetails = jobDetails;
   }
 
+  @Override
   public void acceptApplicationFor(Jobseeker jobseeker)
   {
     // TODO(kw): NoResume vs ValidResume should be a hidden detail from clients - they should just
     // pass Resume
     applications.add(new Application(Clock.now(), new Applicant(jobseeker, new NoResume())));
+  }
+
+  @Override
+  public void acceptApplicationFor(Jobseeker jobseeker,
+                                   ValidResume resume)
+  {
+    applications.add(new Application(Clock.now(), new Applicant(jobseeker, resume)));
   }
 
   @Override

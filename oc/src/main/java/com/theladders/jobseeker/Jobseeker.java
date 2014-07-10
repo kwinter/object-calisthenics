@@ -1,9 +1,6 @@
 package com.theladders.jobseeker;
 
 import com.theladders.job.Job;
-import com.theladders.job.ats.AtsJob;
-import com.theladders.job.jreq.JReq;
-import com.theladders.job.jreq.JReqApplicationInProgress;
 import com.theladders.jobseeker.job.JobFolder;
 import com.theladders.jobseeker.resume.Resume.ValidResume;
 import com.theladders.jobseeker.resume.Title;
@@ -19,14 +16,17 @@ public class Jobseeker
     this.name = name;
   }
 
-  public JReqApplicationInProgress applyTo(JReq job)
-  {
-    return job.applicationFor(this);
-  }
-
-  public void applyTo(AtsJob job)
+  public void applyTo(Job job)
   {
     job.acceptApplicationFor(this);
+    jobFolder.addApplied(job);
+  }
+
+  public void applyTo(Job job,
+                      ValidResume resume)
+  {
+    resume.verifyOwnerIs(this);
+    job.acceptApplicationFor(this, resume);
     jobFolder.addApplied(job);
   }
 

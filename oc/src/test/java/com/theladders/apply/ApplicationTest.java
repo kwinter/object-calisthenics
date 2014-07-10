@@ -14,6 +14,7 @@ import com.theladders.employer.Employer;
 import com.theladders.job.application.NotYourResume;
 import com.theladders.job.ats.AtsJob;
 import com.theladders.job.jreq.JReq;
+import com.theladders.job.jreq.ResumeRequired;
 import com.theladders.jobseeker.Jobseeker;
 import com.theladders.jobseeker.Name;
 import com.theladders.jobseeker.resume.Resume.ValidResume;
@@ -46,7 +47,22 @@ public class ApplicationTest
     Jobseeker jobseeker = jobseekerNamed("Johnny");
     ValidResume resume = jobseeker.createResumeWith(new Title("Johnny's resume"));
 
-    jobseeker.applyTo(job).with(resume);
+    jobseeker.applyTo(job, resume);
+
+    StringWriterDisplay display = new StringWriterDisplay();
+    job.displayApplicationsOn(display);
+    assertEquals(expectedApplicationFor(yesterday(), "Johnny", "Johnny's resume"), display.result());
+  }
+
+  @Test(expected = ResumeRequired.class)
+  public void cantApplyToJReqWithoutResume()
+  {
+    Employer employer = employerNamed("Employer 1");
+    JReq job = employer.postJreqWith(title("Sweet job"));
+
+    Jobseeker jobseeker = jobseekerNamed("Johnny");
+
+    jobseeker.applyTo(job);
 
     StringWriterDisplay display = new StringWriterDisplay();
     job.displayApplicationsOn(display);
@@ -90,7 +106,7 @@ public class ApplicationTest
     Jobseeker jobseeker = jobseekerNamed("Johnny");
     ValidResume resume = jobseeker.createResumeWith(new Title("Johnny's resume"));
 
-    jobseeker.applyTo(jreq).with(resume);
+    jobseeker.applyTo(jreq, resume);
     jobseeker.applyTo(atsJob);
 
     StringWriterDisplay display = new StringWriterDisplay();
@@ -125,7 +141,7 @@ public class ApplicationTest
     Jobseeker bobby = jobseekerNamed("Bobby");
 
     ValidResume bobbysResume = bobby.createResumeWith(new Title("Bobby's resume"));
-    johnny.applyTo(job).with(bobbysResume);
+    johnny.applyTo(job, bobbysResume);
   }
 
   @Test(expected = NotYourResume.class)
@@ -140,7 +156,7 @@ public class ApplicationTest
     Jobseeker anotherJohnny = jobseekerNamed("Johnny");
 
     ValidResume anotherJohnnysResume = anotherJohnny.createResumeWith(new Title("another jobseeker's resume"));
-    johnny.applyTo(job).with(anotherJohnnysResume);
+    johnny.applyTo(job, anotherJohnnysResume);
   }
 
   @Test
@@ -225,7 +241,7 @@ public class ApplicationTest
 
     ValidResume resume = jobseeker.createResumeWith(new Title("Johnny's resume"));
 
-    jobseeker.applyTo(jreq).with(resume);
+    jobseeker.applyTo(jreq, resume);
     jobseeker.applyTo(atsJob);
 
     Employer anotherEmployer = employerNamed("Employer 2");
