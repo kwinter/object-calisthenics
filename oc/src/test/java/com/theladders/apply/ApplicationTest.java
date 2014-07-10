@@ -49,7 +49,7 @@ public class ApplicationTest
   {
     Jobseeker jobseeker = new Jobseeker(new Name(JOHNNYS_NAME));
     Employer employer = createEmployerWith("Employer 1");
-    JReq job = employer.createJreqWith(new com.theladders.job.Title("Sweet job"));
+    JReq job = employer.postJreqWith(new com.theladders.job.Title("Sweet job"));
 
     ValidResume resume = jobseeker.createResumeWith(new Title(JOHNNYS_RESUME));
     jobseeker.applyTo(job).with(resume);
@@ -66,7 +66,7 @@ public class ApplicationTest
   {
     Jobseeker jobseeker = new Jobseeker(new Name(JOHNNYS_NAME));
     Employer employer = createEmployerWith("Employer 1");
-    AtsJob job = employer.createAtsJobWith(new com.theladders.job.Title("Sweet job"));
+    AtsJob job = employer.postAtsJobWith(new com.theladders.job.Title("Sweet job"));
 
     jobseeker.applyTo(job);
 
@@ -82,7 +82,7 @@ public class ApplicationTest
   {
     Jobseeker jobseeker = new Jobseeker(new Name(JOHNNYS_NAME));
     Employer employer = createEmployerWith("Employer 1");
-    AtsJob job = employer.createAtsJobWith(new com.theladders.job.Title("Sweet job"));
+    AtsJob job = employer.postAtsJobWith(new com.theladders.job.Title("Sweet job"));
 
     jobseeker.save(job);
 
@@ -96,10 +96,8 @@ public class ApplicationTest
   {
     Jobseeker jobseeker = new Jobseeker(new Name(JOHNNYS_NAME));
     Employer employer = createEmployerWith("Employer 1");
-    JReq jreq = employer.createJreqWith(new com.theladders.job.Title("JReq"));
-    employer.post(jreq);
-    AtsJob atsJob = employer.createAtsJobWith(new com.theladders.job.Title("ATS job"));
-    employer.post(atsJob);
+    JReq jreq = employer.postJreqWith(new com.theladders.job.Title("JReq"));
+    AtsJob atsJob = employer.postAtsJobWith(new com.theladders.job.Title("ATS job"));
 
     ValidResume resume = jobseeker.createResumeWith(new Title(JOHNNYS_RESUME));
 
@@ -117,10 +115,8 @@ public class ApplicationTest
   {
     Employer employer = createEmployerWith("Employer 1");
 
-    JReq jreq = employer.createJreqWith(new com.theladders.job.Title("JReq"));
-    employer.post(jreq);
-    AtsJob atsJob = employer.createAtsJobWith(new com.theladders.job.Title("ATS job"));
-    employer.post(atsJob);
+    employer.postJreqWith(new com.theladders.job.Title("JReq"));
+    employer.postAtsJobWith(new com.theladders.job.Title("ATS job"));
 
     StringWriterDisplay display = new StringWriterDisplay();
     employer.displayJobsOn(display);
@@ -134,7 +130,7 @@ public class ApplicationTest
     Jobseeker jobseeker = new Jobseeker(new Name(JOHNNYS_NAME));
     Jobseeker anotherJobseeker = new Jobseeker(new Name("Bobby"));
     Employer employer = createEmployerWith("Employer 1");
-    JReq job = employer.createJreqWith(new com.theladders.job.Title("Sweet job"));
+    JReq job = employer.postJreqWith(new com.theladders.job.Title("Sweet job"));
 
     ValidResume anotherJobseekersResume = anotherJobseeker.createResumeWith(new Title("another jobseeker's resume"));
     jobseeker.applyTo(job).with(anotherJobseekersResume);
@@ -148,7 +144,7 @@ public class ApplicationTest
     Jobseeker johnny = new Jobseeker(new Name(JOHNNYS_NAME));
     Jobseeker anotherJohnny = new Jobseeker(new Name(JOHNNYS_NAME));
     Employer employer = createEmployerWith("Employer 1");
-    JReq job = employer.createJreqWith(new com.theladders.job.Title("Sweet job"));
+    JReq job = employer.postJreqWith(new com.theladders.job.Title("Sweet job"));
 
     ValidResume anotherJohnnysResume = anotherJohnny.createResumeWith(new Title("another jobseeker's resume"));
     johnny.applyTo(job).with(anotherJohnnysResume);
@@ -159,10 +155,8 @@ public class ApplicationTest
   {
     Jobseeker jobseeker = new Jobseeker(new Name(JOHNNYS_NAME));
     Employer employer = createEmployerWith("Employer 1");
-    JReq jreq = employer.createJreqWith(new com.theladders.job.Title("JReq"));
-    employer.post(jreq);
-    AtsJob atsJob = employer.createAtsJobWith(new com.theladders.job.Title("ATS job"));
-    employer.post(atsJob);
+    JReq jreq = employer.postJreqWith(new com.theladders.job.Title("JReq"));
+    AtsJob atsJob = employer.postAtsJobWith(new com.theladders.job.Title("ATS job"));
 
     ValidResume resume = jobseeker.createResumeWith(new Title(JOHNNYS_RESUME));
 
@@ -170,8 +164,7 @@ public class ApplicationTest
     jobseeker.applyTo(atsJob);
 
     Employer anotherEmployer = createEmployerWith("Employer 2");
-    AtsJob anotherEmployersAtsJob = anotherEmployer.createAtsJobWith(new com.theladders.job.Title("ATS job"));
-    anotherEmployer.post(anotherEmployersAtsJob);
+    AtsJob anotherEmployersAtsJob = anotherEmployer.postAtsJobWith(new com.theladders.job.Title("ATS job"));
 
     Jobseeker anotherJobseeker = new Jobseeker(new Name("Bobby"));
     anotherJobseeker.applyTo(anotherEmployersAtsJob);
@@ -191,10 +184,8 @@ public class ApplicationTest
   {
     Jobseeker jobseeker = new Jobseeker(new Name(JOHNNYS_NAME));
     Employer employer = createEmployerWith("Employer 1");
-    JReq jreq = employer.createJreqWith(new com.theladders.job.Title("JReq"));
-    employer.post(jreq);
-    AtsJob atsJob = employer.createAtsJobWith(new com.theladders.job.Title("ATS job"));
-    employer.post(atsJob);
+    JReq jreq = employer.postJreqWith(new com.theladders.job.Title("JReq"));
+    AtsJob atsJob = employer.postAtsJobWith(new com.theladders.job.Title("ATS job"));
 
     ValidResume resume = jobseeker.createResumeWith(new Title(JOHNNYS_RESUME));
 
@@ -202,8 +193,7 @@ public class ApplicationTest
     jobseeker.applyTo(atsJob);
 
     Employer anotherEmployer = createEmployerWith("Employer 2");
-    AtsJob anotherEmployersAtsJob = anotherEmployer.createAtsJobWith(new com.theladders.job.Title("ATS job"));
-    anotherEmployer.post(anotherEmployersAtsJob);
+    AtsJob anotherEmployersAtsJob = anotherEmployer.postAtsJobWith(new com.theladders.job.Title("ATS job"));
 
     Jobseeker anotherJobseeker = new Jobseeker(new Name("Bobby"));
     anotherJobseeker.applyTo(anotherEmployersAtsJob);
@@ -223,10 +213,8 @@ public class ApplicationTest
 
     Jobseeker jobseeker = new Jobseeker(new Name(JOHNNYS_NAME));
     Employer employer = createEmployerWith("Employer 1");
-    JReq jreq = employer.createJreqWith(new com.theladders.job.Title("JReq"));
-    employer.post(jreq);
-    AtsJob atsJob = employer.createAtsJobWith(new com.theladders.job.Title("ATS job"));
-    employer.post(atsJob);
+    JReq jreq = employer.postJreqWith(new com.theladders.job.Title("JReq"));
+    AtsJob atsJob = employer.postAtsJobWith(new com.theladders.job.Title("ATS job"));
 
     ValidResume resume = jobseeker.createResumeWith(new Title(JOHNNYS_RESUME));
 
@@ -234,8 +222,7 @@ public class ApplicationTest
     jobseeker.applyTo(atsJob);
 
     Employer anotherEmployer = createEmployerWith("Employer 2");
-    AtsJob anotherEmployersAtsJob = anotherEmployer.createAtsJobWith(new com.theladders.job.Title("ATS job"));
-    anotherEmployer.post(anotherEmployersAtsJob);
+    AtsJob anotherEmployersAtsJob = anotherEmployer.postAtsJobWith(new com.theladders.job.Title("ATS job"));
 
     Jobseeker anotherJobseeker = new Jobseeker(new Name("Bobby"));
     anotherJobseeker.applyTo(anotherEmployersAtsJob);
@@ -254,10 +241,8 @@ public class ApplicationTest
   {
     Jobseeker jobseeker = new Jobseeker(new Name(JOHNNYS_NAME));
     Employer employer = createEmployerWith("Employer 1");
-    JReq jreq = employer.createJreqWith(new com.theladders.job.Title("JReq"));
-    employer.post(jreq);
-    AtsJob atsJob = employer.createAtsJobWith(new com.theladders.job.Title("ATS job"));
-    employer.post(atsJob);
+    JReq jreq = employer.postJreqWith(new com.theladders.job.Title("JReq"));
+    AtsJob atsJob = employer.postAtsJobWith(new com.theladders.job.Title("ATS job"));
 
     ValidResume resume = jobseeker.createResumeWith(new Title(JOHNNYS_RESUME));
 
@@ -265,8 +250,7 @@ public class ApplicationTest
     jobseeker.applyTo(atsJob);
 
     Employer anotherEmployer = createEmployerWith("Employer 2");
-    AtsJob anotherEmployersAtsJob = anotherEmployer.createAtsJobWith(new com.theladders.job.Title("ATS job"));
-    anotherEmployer.post(anotherEmployersAtsJob);
+    AtsJob anotherEmployersAtsJob = anotherEmployer.postAtsJobWith(new com.theladders.job.Title("ATS job"));
 
     Jobseeker anotherJobseeker = new Jobseeker(new Name("Bobby"));
     anotherJobseeker.applyTo(anotherEmployersAtsJob);
@@ -284,8 +268,7 @@ public class ApplicationTest
   {
     Jobseeker jobseeker = new Jobseeker(new Name(JOHNNYS_NAME));
     Employer employer = createEmployerWith("Employer 1");
-    AtsJob atsJob = employer.createAtsJobWith(new com.theladders.job.Title("ATS job"));
-    employer.post(atsJob);
+    AtsJob atsJob = employer.postAtsJobWith(new com.theladders.job.Title("ATS job"));
 
     jobseeker.applyTo(atsJob);
 

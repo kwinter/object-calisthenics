@@ -19,17 +19,21 @@ public class Employer
     this.name = name;
   }
 
-  public JReq createJreqWith(Title title)
+  public JReq postJreqWith(Title title)
   {
-    return JReq.from(this, title);
+    JReq jreq = JReq.from(this, title);
+    post(jreq);
+    return jreq;
   }
 
-  public AtsJob createAtsJobWith(Title title)
+  public AtsJob postAtsJobWith(Title title)
   {
-    return AtsJob.from(this, title);
+    AtsJob atsJob = AtsJob.from(this, title);
+    post(atsJob);
+    return atsJob;
   }
 
-  public void post(Job job)
+  private void post(Job job)
   {
     jobs.add(job);
   }
