@@ -26,16 +26,9 @@ import com.theladders.time.Clock.MockClock;
 
 public class ApplicationTest
 {
-  private static final String JOHNNYS_RESUME                     = "Johnny's resume";
-  private static final String JOHNNYS_NAME                       = "Johnny";
-  private static final String JOHNNYS_APPLICATION_WITH_RESUME    = applicationFor(yesterday(),
-                                                                                  JOHNNYS_NAME,
-                                                                                  JOHNNYS_RESUME);
-  private static final String JOHNNYS_APPLICATION_WITHOUT_RESUME = applicationFor(yesterday(), JOHNNYS_NAME, "");
+  private final TheLadders theLadders = new TheLadders();
 
-  private final TheLadders    theLadders                         = new TheLadders();
-
-  private MockClock           mockClock;
+  private MockClock        mockClock;
 
   @Before
   public void setup()
@@ -47,93 +40,92 @@ public class ApplicationTest
   @Test
   public void applyingToJReq()
   {
-    Jobseeker jobseeker = new Jobseeker(new Name(JOHNNYS_NAME));
-    Employer employer = createEmployerWith("Employer 1");
-    JReq job = employer.postJreqWith(new com.theladders.job.Title("Sweet job"));
+    Employer employer = employerNamed("Employer 1");
+    JReq job = employer.postJreqWith(title("Sweet job"));
 
-    ValidResume resume = jobseeker.createResumeWith(new Title(JOHNNYS_RESUME));
+    Jobseeker jobseeker = jobseekerNamed("Johnny");
+    ValidResume resume = jobseeker.createResumeWith(new Title("Johnny's resume"));
+
     jobseeker.applyTo(job).with(resume);
 
     StringWriterDisplay display = new StringWriterDisplay();
     job.displayApplicationsOn(display);
-    String result = display.result();
-    System.out.println(result);
-    assertEquals(JOHNNYS_APPLICATION_WITH_RESUME, result);
+    assertEquals(expectedApplicationFor(yesterday(), "Johnny", "Johnny's resume"), display.result());
   }
 
   @Test
   public void applyingToAtsJob()
   {
-    Jobseeker jobseeker = new Jobseeker(new Name(JOHNNYS_NAME));
-    Employer employer = createEmployerWith("Employer 1");
-    AtsJob job = employer.postAtsJobWith(new com.theladders.job.Title("Sweet job"));
+    Employer employer = employerNamed("Employer 1");
+    AtsJob job = employer.postAtsJobWith(title("Sweet job"));
 
-    jobseeker.applyTo(job);
+    jobseekerNamed("Johnny").applyTo(job);
 
     StringWriterDisplay display = new StringWriterDisplay();
     job.displayApplicationsOn(display);
-    String result = display.result();
-    System.out.println(result);
-    assertEquals(JOHNNYS_APPLICATION_WITHOUT_RESUME, result);
+    assertEquals(expectedApplicationFor(yesterday(), "Johnny", ""), display.result());
   }
 
   @Test
   public void jobseekersCanListSavedJobs()
   {
-    Jobseeker jobseeker = new Jobseeker(new Name(JOHNNYS_NAME));
-    Employer employer = createEmployerWith("Employer 1");
-    AtsJob job = employer.postAtsJobWith(new com.theladders.job.Title("Sweet job"));
+    Employer employer = employerNamed("Employer 1");
+    AtsJob job = employer.postAtsJobWith(title("Sweet job"));
 
+    Jobseeker jobseeker = jobseekerNamed("Johnny");
     jobseeker.save(job);
 
     StringWriterDisplay display = new StringWriterDisplay();
     jobseeker.displaySavedJobsOn(display);
-    assertEquals(splitByNewlines(jobDisplayFor("Employer 1", "Sweet job")), display.result());
+    assertEquals(splitByNewlines(expectedJobDisplayFor("Employer 1", "Sweet job")), display.result());
   }
 
   @Test
   public void jobseekersCanListAppliedJobs()
   {
-    Jobseeker jobseeker = new Jobseeker(new Name(JOHNNYS_NAME));
-    Employer employer = createEmployerWith("Employer 1");
-    JReq jreq = employer.postJreqWith(new com.theladders.job.Title("JReq"));
-    AtsJob atsJob = employer.postAtsJobWith(new com.theladders.job.Title("ATS job"));
+    Employer employer = employerNamed("Employer 1");
+    JReq jreq = employer.postJreqWith(title("JReq"));
+    AtsJob atsJob = employer.postAtsJobWith(title("ATS job"));
 
-    ValidResume resume = jobseeker.createResumeWith(new Title(JOHNNYS_RESUME));
+    Jobseeker jobseeker = jobseekerNamed("Johnny");
+    ValidResume resume = jobseeker.createResumeWith(new Title("Johnny's resume"));
 
     jobseeker.applyTo(jreq).with(resume);
     jobseeker.applyTo(atsJob);
 
     StringWriterDisplay display = new StringWriterDisplay();
     jobseeker.displayAppliedJobsOn(display);
-    assertEquals(splitByNewlines(jobDisplayFor("Employer 1", "JReq"), jobDisplayFor("Employer 1", "ATS job")),
+    assertEquals(splitByNewlines(expectedJobDisplayFor("Employer 1", "JReq"),
+                                 expectedJobDisplayFor("Employer 1", "ATS job")),
                  display.result());
   }
 
   @Test
   public void employersCanListJobs()
   {
-    Employer employer = createEmployerWith("Employer 1");
+    Employer employer = employerNamed("Employer 1");
 
-    employer.postJreqWith(new com.theladders.job.Title("JReq"));
-    employer.postAtsJobWith(new com.theladders.job.Title("ATS job"));
+    employer.postJreqWith(title("JReq"));
+    employer.postAtsJobWith(title("ATS job"));
 
     StringWriterDisplay display = new StringWriterDisplay();
     employer.displayJobsOn(display);
-    assertEquals(splitByNewlines(jobDisplayFor("Employer 1", "JReq"), jobDisplayFor("Employer 1", "ATS job")),
+    assertEquals(splitByNewlines(expectedJobDisplayFor("Employer 1", "JReq"),
+                                 expectedJobDisplayFor("Employer 1", "ATS job")),
                  display.result());
   }
 
   @Test(expected = NotYourResume.class)
   public void cantApplyWithSomeoneElsesResume()
   {
-    Jobseeker jobseeker = new Jobseeker(new Name(JOHNNYS_NAME));
-    Jobseeker anotherJobseeker = new Jobseeker(new Name("Bobby"));
-    Employer employer = createEmployerWith("Employer 1");
-    JReq job = employer.postJreqWith(new com.theladders.job.Title("Sweet job"));
+    Employer employer = employerNamed("Employer 1");
+    JReq job = employer.postJreqWith(title("Sweet job"));
 
-    ValidResume anotherJobseekersResume = anotherJobseeker.createResumeWith(new Title("another jobseeker's resume"));
-    jobseeker.applyTo(job).with(anotherJobseekersResume);
+    Jobseeker johnny = jobseekerNamed("Johnny");
+    Jobseeker bobby = jobseekerNamed("Bobby");
+
+    ValidResume bobbysResume = bobby.createResumeWith(new Title("Bobby's resume"));
+    johnny.applyTo(job).with(bobbysResume);
   }
 
   @Test(expected = NotYourResume.class)
@@ -141,10 +133,11 @@ public class ApplicationTest
   // distinguish between their resumes
   public void canHandleJobseekersWithTheSameName()
   {
-    Jobseeker johnny = new Jobseeker(new Name(JOHNNYS_NAME));
-    Jobseeker anotherJohnny = new Jobseeker(new Name(JOHNNYS_NAME));
-    Employer employer = createEmployerWith("Employer 1");
-    JReq job = employer.postJreqWith(new com.theladders.job.Title("Sweet job"));
+    Employer employer = employerNamed("Employer 1");
+    JReq job = employer.postJreqWith(title("Sweet job"));
+
+    Jobseeker johnny = jobseekerNamed("Johnny");
+    Jobseeker anotherJohnny = jobseekerNamed("Johnny");
 
     ValidResume anotherJohnnysResume = anotherJohnny.createResumeWith(new Title("another jobseeker's resume"));
     johnny.applyTo(job).with(anotherJohnnysResume);
@@ -153,22 +146,7 @@ public class ApplicationTest
   @Test
   public void canSeeApplicationNumbersByJob()
   {
-    Jobseeker jobseeker = new Jobseeker(new Name(JOHNNYS_NAME));
-    Employer employer = createEmployerWith("Employer 1");
-    JReq jreq = employer.postJreqWith(new com.theladders.job.Title("JReq"));
-    AtsJob atsJob = employer.postAtsJobWith(new com.theladders.job.Title("ATS job"));
-
-    ValidResume resume = jobseeker.createResumeWith(new Title(JOHNNYS_RESUME));
-
-    jobseeker.applyTo(jreq).with(resume);
-    jobseeker.applyTo(atsJob);
-
-    Employer anotherEmployer = createEmployerWith("Employer 2");
-    AtsJob anotherEmployersAtsJob = anotherEmployer.postAtsJobWith(new com.theladders.job.Title("ATS job"));
-
-    Jobseeker anotherJobseeker = new Jobseeker(new Name("Bobby"));
-    anotherJobseeker.applyTo(anotherEmployersAtsJob);
-    anotherJobseeker.applyTo(atsJob);
+    setupComplexScenario();
 
     StringWriterDisplay display = new StringWriterDisplay();
     theLadders.reportApplicationsByJobOn(display);
@@ -182,22 +160,7 @@ public class ApplicationTest
   @Test
   public void canSeeApplicationNumbersByEmployer()
   {
-    Jobseeker jobseeker = new Jobseeker(new Name(JOHNNYS_NAME));
-    Employer employer = createEmployerWith("Employer 1");
-    JReq jreq = employer.postJreqWith(new com.theladders.job.Title("JReq"));
-    AtsJob atsJob = employer.postAtsJobWith(new com.theladders.job.Title("ATS job"));
-
-    ValidResume resume = jobseeker.createResumeWith(new Title(JOHNNYS_RESUME));
-
-    jobseeker.applyTo(jreq).with(resume);
-    jobseeker.applyTo(atsJob);
-
-    Employer anotherEmployer = createEmployerWith("Employer 2");
-    AtsJob anotherEmployersAtsJob = anotherEmployer.postAtsJobWith(new com.theladders.job.Title("ATS job"));
-
-    Jobseeker anotherJobseeker = new Jobseeker(new Name("Bobby"));
-    anotherJobseeker.applyTo(anotherEmployersAtsJob);
-    anotherJobseeker.applyTo(atsJob);
+    setupComplexScenario();
 
     StringWriterDisplay display = new StringWriterDisplay();
     theLadders.reportApplicationsByEmployerOn(display);
@@ -210,23 +173,7 @@ public class ApplicationTest
   @Test
   public void canSeeApplicationReportInCsv()
   {
-
-    Jobseeker jobseeker = new Jobseeker(new Name(JOHNNYS_NAME));
-    Employer employer = createEmployerWith("Employer 1");
-    JReq jreq = employer.postJreqWith(new com.theladders.job.Title("JReq"));
-    AtsJob atsJob = employer.postAtsJobWith(new com.theladders.job.Title("ATS job"));
-
-    ValidResume resume = jobseeker.createResumeWith(new Title(JOHNNYS_RESUME));
-
-    jobseeker.applyTo(jreq).with(resume);
-    jobseeker.applyTo(atsJob);
-
-    Employer anotherEmployer = createEmployerWith("Employer 2");
-    AtsJob anotherEmployersAtsJob = anotherEmployer.postAtsJobWith(new com.theladders.job.Title("ATS job"));
-
-    Jobseeker anotherJobseeker = new Jobseeker(new Name("Bobby"));
-    anotherJobseeker.applyTo(anotherEmployersAtsJob);
-    anotherJobseeker.applyTo(atsJob);
+    setupComplexScenario();
 
     CsvDisplay display = new CsvDisplay();
     theLadders.reportApplicationsByEmployerOn(display);
@@ -239,22 +186,7 @@ public class ApplicationTest
   @Test
   public void canSeeApplicationReportInHtml()
   {
-    Jobseeker jobseeker = new Jobseeker(new Name(JOHNNYS_NAME));
-    Employer employer = createEmployerWith("Employer 1");
-    JReq jreq = employer.postJreqWith(new com.theladders.job.Title("JReq"));
-    AtsJob atsJob = employer.postAtsJobWith(new com.theladders.job.Title("ATS job"));
-
-    ValidResume resume = jobseeker.createResumeWith(new Title(JOHNNYS_RESUME));
-
-    jobseeker.applyTo(jreq).with(resume);
-    jobseeker.applyTo(atsJob);
-
-    Employer anotherEmployer = createEmployerWith("Employer 2");
-    AtsJob anotherEmployersAtsJob = anotherEmployer.postAtsJobWith(new com.theladders.job.Title("ATS job"));
-
-    Jobseeker anotherJobseeker = new Jobseeker(new Name("Bobby"));
-    anotherJobseeker.applyTo(anotherEmployersAtsJob);
-    anotherJobseeker.applyTo(atsJob);
+    setupComplexScenario();
 
     HtmlDisplay display = new HtmlDisplay();
     theLadders.reportApplicationsByEmployerOn(display);
@@ -266,37 +198,62 @@ public class ApplicationTest
   @Test
   public void canSeeWhichJobseekersAppliedByDay()
   {
-    Jobseeker jobseeker = new Jobseeker(new Name(JOHNNYS_NAME));
-    Employer employer = createEmployerWith("Employer 1");
-    AtsJob atsJob = employer.postAtsJobWith(new com.theladders.job.Title("ATS job"));
+    Employer employer = employerNamed("Employer 1");
+    AtsJob atsJob = employer.postAtsJobWith(title("ATS job"));
 
-    jobseeker.applyTo(atsJob);
+    Jobseeker johnny = jobseekerNamed("Johnny");
+
+    johnny.applyTo(atsJob);
 
     mockClock.setTimeTo(twoDaysAgo());
-    Jobseeker bobby = new Jobseeker(new Name("Bobby"));
+
+    Jobseeker bobby = jobseekerNamed("Bobby");
     bobby.applyTo(atsJob);
-    Jobseeker billy = new Jobseeker(new Name("Billy"));
+    Jobseeker billy = jobseekerNamed("Billy");
     billy.applyTo(atsJob);
 
-    StringWriterDisplay display = new StringWriterDisplay();
-    theLadders.reportJobseekersThatAppliedOn(yesterday(), display);
-
-    assertEquals(splitByNewlines(JOHNNYS_NAME), display.result());
-
-    display = new StringWriterDisplay();
-    theLadders.reportJobseekersThatAppliedOn(twoDaysAgo(), display);
-
-    assertEquals(splitByNewlines("Bobby", "Billy"), display.result());
+    thenReportSaysApplicantsOnDateAre(yesterday(), "Johnny");
+    thenReportSaysApplicantsOnDateAre(twoDaysAgo(), "Bobby", "Billy");
   }
 
-  private Employer createEmployerWith(String name)
+  private void setupComplexScenario()
+  {
+    Jobseeker jobseeker = jobseekerNamed("Johnny");
+    Employer employer = employerNamed("Employer 1");
+    JReq jreq = employer.postJreqWith(title("JReq"));
+    AtsJob atsJob = employer.postAtsJobWith(title("ATS job"));
+
+    ValidResume resume = jobseeker.createResumeWith(new Title("Johnny's resume"));
+
+    jobseeker.applyTo(jreq).with(resume);
+    jobseeker.applyTo(atsJob);
+
+    Employer anotherEmployer = employerNamed("Employer 2");
+    AtsJob anotherEmployersAtsJob = anotherEmployer.postAtsJobWith(title("ATS job"));
+
+    Jobseeker anotherJobseeker = jobseekerNamed("Bobby");
+    anotherJobseeker.applyTo(anotherEmployersAtsJob);
+    anotherJobseeker.applyTo(atsJob);
+  }
+
+  private Employer employerNamed(String name)
   {
     return theLadders.createEmployerWith(new com.theladders.employer.Name(name));
   }
 
-  private static String applicationFor(Date date,
-                                       String name,
-                                       String resumeTitle)
+  private Jobseeker jobseekerNamed(String name)
+  {
+    return new Jobseeker(new Name(name));
+  }
+
+  private com.theladders.job.Title title(String title)
+  {
+    return new com.theladders.job.Title(title);
+  }
+
+  private static String expectedApplicationFor(Date date,
+                                               String name,
+                                               String resumeTitle)
   {
     return SimpleDateFormat.getDateInstance().format(date) + StringWriterDisplay.DELIMITER
            + name
@@ -318,11 +275,11 @@ public class ApplicationTest
                                                    String title,
                                                    int count)
   {
-    return jobDisplayFor(employer, title) + StringWriterDisplay.DELIMITER + count;
+    return expectedJobDisplayFor(employer, title) + StringWriterDisplay.DELIMITER + count;
   }
 
-  private static String jobDisplayFor(String employer,
-                                      String title)
+  private static String expectedJobDisplayFor(String employer,
+                                              String title)
   {
     return employer + StringWriterDisplay.DELIMITER + title;
   }
@@ -354,5 +311,13 @@ public class ApplicationTest
     Calendar calendar = Calendar.getInstance();
     calendar.add(Calendar.DATE, -numberOfDaysAgo);
     return calendar.getTime();
+  }
+
+  private void thenReportSaysApplicantsOnDateAre(Date date,
+                                                 String... expectedNames)
+  {
+    StringWriterDisplay display = new StringWriterDisplay();
+    theLadders.reportJobseekersThatAppliedOn(date, display);
+    assertEquals(splitByNewlines(expectedNames), display.result());
   }
 }
