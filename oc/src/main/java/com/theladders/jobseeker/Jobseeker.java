@@ -26,7 +26,7 @@ public class Jobseeker
 
   public void applyTo(AtsJob job)
   {
-    job.submitApplicationBy(this);
+    job.acceptApplicationFor(this);
     jobFolder.addApplied(job);
   }
 

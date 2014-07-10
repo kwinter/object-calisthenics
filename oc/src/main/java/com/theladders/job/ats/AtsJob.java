@@ -29,7 +29,7 @@ public class AtsJob implements Job
     this.jobDetails = jobDetails;
   }
 
-  public void submitApplicationBy(Jobseeker jobseeker)
+  public void acceptApplicationFor(Jobseeker jobseeker)
   {
     // TODO(kw): NoResume vs ValidResume should be a hidden detail from clients - they should just
     // pass Resume
