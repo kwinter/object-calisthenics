@@ -18,7 +18,7 @@ public class JReqApplicationInProgress
   public void with(ValidResume resume)
   {
     resume.verifyOwnerIs(jobseeker);
-    job.submitApplicationFor(jobseeker, resume);
+    job.acceptApplicationFor(jobseeker, resume);
     // TODO (kw): is there a better way to do this while maintaining a fluent API?
     jobseeker.addToAppliedJobs(job);
   }

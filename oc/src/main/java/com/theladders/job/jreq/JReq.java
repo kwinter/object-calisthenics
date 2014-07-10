@@ -16,7 +16,7 @@ import com.theladders.time.Clock;
 public class JReq implements Job
 {
   private final Applications applications = Applications.empty();
-  private final JobDetails jobDetails;
+  private final JobDetails   jobDetails;
 
   public static JReq from(Employer employer,
                           Title title)
@@ -34,8 +34,8 @@ public class JReq implements Job
     return new JReqApplicationInProgress(jobseeker, this);
   }
 
-  public void submitApplicationFor(Jobseeker jobseeker,
-                                   ValidResume resume)
+  void acceptApplicationFor(Jobseeker jobseeker,
+                            ValidResume resume)
   {
     applications.add(new Application(Clock.now(), new Applicant(jobseeker, resume)));
   }
